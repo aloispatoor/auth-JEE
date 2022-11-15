@@ -10,7 +10,7 @@
 	<body>
 		
 		<h1>Sign In</h1>
-		<% if (request.getAttribute("msg") != null) { %>
+		<% if (session.getAttribute("msg") != null) { %>
 			<p class="error">${msg}</p>
 		<% } %>
         <form method="POST" action="signin">

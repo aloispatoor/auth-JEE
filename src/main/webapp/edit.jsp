@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<h1>Update User</h1>
-		<% if (request.getAttribute("msg") != null) { %>
+		<% if (session.getAttribute("msg") != null) { %>
 			<p class="error">${msg}</p>
 		<% } %>
         <form method="POST">

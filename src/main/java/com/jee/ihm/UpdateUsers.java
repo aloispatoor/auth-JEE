@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.jee.dao.UtilConnexion;
 
@@ -31,6 +32,7 @@ public class UpdateUsers extends HttpServlet {
 			ResultSet rs = ps.executeQuery();
 			
 			if (rs.next()) {
+				// rs.getThing(number of column in the SQL)
 				request.setAttribute("id", rs.getInt(1));
 				request.setAttribute("username", rs.getString(2));
 				request.setAttribute("email", rs.getString(3));
@@ -44,7 +46,8 @@ public class UpdateUsers extends HttpServlet {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("msg", "Error at update (GET)");
+			HttpSession session = request.getSession(true);
+			session.setAttribute("msg", "Error at update (GET)");
 			request.getRequestDispatcher("/allusers").forward(request, response);
 		} 
 	}
@@ -90,7 +93,8 @@ public class UpdateUsers extends HttpServlet {
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				request.setAttribute("msg", "Error at update (POST)");
+				HttpSession session = request.getSession(true);
+				session.setAttribute("msg", "Error at update (POST)");
 				doGet(request, response);
 			}
 		}

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.jee.dao.UtilConnexion;
 
@@ -28,6 +29,7 @@ public class signIn extends HttpServlet {
 		String email = request.getParameter("txtEmail");
 		String password = request.getParameter("txtPassword");
 		String password2 = request.getParameter("txtPassword2");
+		
 		
 		if(login == null || login == "") {
 			request.setAttribute("msg","Error: Login can't be null");
@@ -54,7 +56,8 @@ public class signIn extends HttpServlet {
 				con.close();
 				
 			} catch (Exception e) {
-				request.setAttribute("msg", "Error: Database issues");
+				HttpSession session = request.getSession(true);
+				session.setAttribute("msg", "Error: Database issues");
 				doGet(request, response);
 			}
 		}

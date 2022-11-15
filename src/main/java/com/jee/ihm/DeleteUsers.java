@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.jee.dao.UtilConnexion;
 
@@ -35,7 +36,8 @@ public class DeleteUsers extends HttpServlet {
 			request.getRequestDispatcher("/allusers").forward(request, response);
 		}catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("msg", "Error at delete");
+			HttpSession session = request.getSession(true);
+			session.setAttribute("msg", "Error at delete");
 			request.getRequestDispatcher("/allusers").forward(request, response);
 			doGet(request, response);
 		}
