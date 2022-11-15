@@ -44,8 +44,11 @@ public class signIn extends HttpServlet {
 		} else {
 			try {
 				Connection con = UtilConnexion.seConnecter();
-				String query = "INSERT INTO users(username, email, password) VALUE ('" + login + "','" + email + "','" + password + "')";
+				String query = "INSERT INTO users(username, email, password) VALUE (?, ?, ?)";
 				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, login);
+				ps.setString(2, email);
+				ps.setString(3, password);
 				ps.executeUpdate();
 				request.getRequestDispatcher("/allusers").forward(request, response);
 				con.close();

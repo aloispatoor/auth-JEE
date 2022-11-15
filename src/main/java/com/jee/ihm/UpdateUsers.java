@@ -75,8 +75,12 @@ public class UpdateUsers extends HttpServlet {
 		
 				Connection con = UtilConnexion.seConnecter();
 				
-				String query = "UPDATE users SET username='" + login + "', email='" + email + "', password='" + password + "' WHERE id='" + id + "'";
+				String query = "UPDATE users SET username =?, email=?, password=? WHERE id=?;";
 				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, login);
+				ps.setString(2, email);
+				ps.setString(3, password);
+				ps.setInt(4, id);
 				ps.executeUpdate();
 				
 				con.close();

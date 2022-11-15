@@ -23,9 +23,11 @@ public class DeleteUsers extends HttpServlet {
 			Connection con = UtilConnexion.seConnecter();
 			
 			int id = Integer.parseInt(request.getParameter("id"));
+            
 			
-			String query = "DELETE FROM users WHERE id='" + id + "'";
+			String query = "DELETE FROM users WHERE id = ?";
 			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, id);
 			ps.executeUpdate();
 			con.close();
 			
