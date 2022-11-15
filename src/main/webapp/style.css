@@ -1,0 +1,32 @@
+@charset "ISO-8859-1";
+
+body{
+	background: #303030;
+	color: white;
+	font-family: sans-serif;
+}
+
+h1, h2, p, form{
+	text-align:center;
+	padding-bottom: 1em;
+}
+
+.error{
+	color: #ff2b2b;
+}
+table{
+	margin-left: 5em;
+}
+table thead{
+	font-weight: bold;
+}
+table td{
+	padding: 1em;
+}
+
+a{
+	color: white;
+}
+a:active{
+	color: grey;
+}
