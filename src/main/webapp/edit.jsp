@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="com.jee.modele.Users" %>    
+<%@ page import="com.jee.dao.UserDAO" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,7 +11,7 @@
 	</head>
 	<body>
 		<h1>Update User</h1>
-		<% if (session.getAttribute("msg") != null) { %>
+		<% if (request.getAttribute("msg") != null) { %>
 			<p class="error">${msg}</p>
 		<% } %>
         <form method="POST">

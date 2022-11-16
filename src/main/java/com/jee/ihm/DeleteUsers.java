@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.jee.dao.UserDAO;
 import com.jee.dao.UtilConnexion;
 
 
@@ -20,28 +21,14 @@ public class DeleteUsers extends HttpServlet {
        
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			Connection con = UtilConnexion.seConnecter();
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-            
-			
-			String query = "DELETE FROM users WHERE id = ?";
-			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, id);
-			ps.executeUpdate();
-			con.close();
-			
-			request.setAttribute("msg", "User removed!");
-			request.getRequestDispatcher("/allusers").forward(request, response);
-		}catch (Exception e) {
-			e.printStackTrace();
-			HttpSession session = request.getSession(true);
-			session.setAttribute("msg", "Error at delete");
-			request.getRequestDispatcher("/allusers").forward(request, response);
-			doGet(request, response);
-		}
+		
+		int id = Integer.parseInt( request.getParameter("id") );
+		boolean isOk = UserDAO.deleteUser(id);
+		
+		HttpSession session = request.getSession(true);
+		// If isOk is true, msg = User deleted. Else, msg = Error at delete
+		session.setAttribute("msg", isOk ? "User deleted!" : "Error at delete");
+		request.getRequestDispatcher("/allusers").forward(request, response);
 	}
 
-	
 }

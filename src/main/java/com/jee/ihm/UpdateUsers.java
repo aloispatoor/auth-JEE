@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.jee.dao.UserDAO;
 import com.jee.dao.UtilConnexion;
+import com.jee.modele.Users;
 
 
 @WebServlet("/update")
@@ -24,30 +26,19 @@ public class UpdateUsers extends HttpServlet {
 		
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
+			Users user = UserDAO.getUser(id);
 			
-			Connection con = UtilConnexion.seConnecter();
-	
-			String query = "SELECT * FROM users WHERE id='" + id + "'";
-			PreparedStatement ps = con.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			
-			if (rs.next()) {
-				// rs.getThing(number of column in the SQL)
-				request.setAttribute("id", rs.getInt(1));
-				request.setAttribute("username", rs.getString(2));
-				request.setAttribute("email", rs.getString(3));
-				request.setAttribute("password", rs.getString(4));
-				
+			if (user != null) {
+				request.setAttribute("user", user);
+				request.getRequestDispatcher("edit.jsp").forward(request, response);
+			} else {
+				request.getRequestDispatcher("/allusers").forward(request, response);
 			}
-			request.getRequestDispatcher("edit.jsp").forward(request, response);
 			
-			con.close();
-			rs.close();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			HttpSession session = request.getSession(true);
-			session.setAttribute("msg", "Error at update (GET)");
+			request.setAttribute("msg", "Error at update (GET)");
 			request.getRequestDispatcher("/allusers").forward(request, response);
 		} 
 	}
@@ -61,43 +52,26 @@ public class UpdateUsers extends HttpServlet {
 		String password = (String) request.getParameter("txtPassword");
 		String password2 = (String) request.getParameter("txtPassword2");
 		
-		if(login == null || login == "") {
-			request.setAttribute("msg","Error: Login can't be null");
-		} else if (password == null || password == "") {
-			request.setAttribute("msg","Error: password can't be null");
-		} else if (email == null || email == "") {
-			request.setAttribute("msg","Error: Email can't be null");
-		} else if (!email.contains("@")) {
-			request.setAttribute("msg","Error: Login must be an email");
-		} else if (!password.equals(password2)) {
-			request.setAttribute("msg","Error: Password fields aren't identical");
-		} else if (password.length() < 9) {
-			request.setAttribute("msg", "Error: The password must have more than 8 characters");	
+		Users u = UserDAO.getUser(id);
+		
+		String error = UserDAO.checkInputs(login, email, password, password2);
+		
+		if(error != null) {
+			request.setAttribute("msg", error);
 		} else {
 			try {
-		
-				Connection con = UtilConnexion.seConnecter();
-				
-				String query = "UPDATE users SET username =?, email=?, password=? WHERE id=?;";
-				PreparedStatement ps = con.prepareStatement(query);
-				ps.setString(1, login);
-				ps.setString(2, email);
-				ps.setString(3, password);
-				ps.setInt(4, id);
-				ps.executeUpdate();
-				
-				con.close();
+				UserDAO.updateUser(u);
 				
 				request.setAttribute("msg", "User Updated!");
 				request.getRequestDispatcher("/allusers").forward(request, response);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				HttpSession session = request.getSession(true);
-				session.setAttribute("msg", "Error at update (POST)");
+				request.setAttribute("msg", "Error at update (POST)");
 				doGet(request, response);
 			}
 		}
+		
 	}
 
 }

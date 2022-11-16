@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.jee.dao.UserDAO;
 import com.jee.dao.UtilConnexion;
+import com.jee.modele.Users;
 
 
 @WebServlet("/signin")
@@ -30,37 +32,25 @@ public class signIn extends HttpServlet {
 		String password = request.getParameter("txtPassword");
 		String password2 = request.getParameter("txtPassword2");
 		
+		Users user = new Users(login, email, password);
 		
-		if(login == null || login == "") {
-			request.setAttribute("msg","Error: Login can't be null");
-		} else if (password == null || password == "") {
-			request.setAttribute("msg","Error: password can't be null");
-		} else if (email == null || email == "") {
-			request.setAttribute("msg","Error: Email can't be null");
-		} else if (!email.contains("@")) {
-			request.setAttribute("msg","Error: Login must be an email");
-		} else if (!password.equals(password2)) {
-			request.setAttribute("msg","Error: Password fields aren't identical");
-		} else if (password.length() < 9) {
-			request.setAttribute("msg", "Error: The password must have more than 8 characters");	
-		} else {
+		HttpSession session = request.getSession(true);
+		
+		String error = UserDAO.checkInputs(login, email, password, password2);
+		
+		if (error != null) {
+			session.setAttribute("error", error);
+		} else {	
 			try {
-				Connection con = UtilConnexion.seConnecter();
-				String query = "INSERT INTO users(username, email, password) VALUE (?, ?, ?)";
-				PreparedStatement ps = con.prepareStatement(query);
-				ps.setString(1, login);
-				ps.setString(2, email);
-				ps.setString(3, password);
-				ps.executeUpdate();
+				UserDAO.createUser(user);
 				request.getRequestDispatcher("/allusers").forward(request, response);
-				con.close();
 				
 			} catch (Exception e) {
-				HttpSession session = request.getSession(true);
 				session.setAttribute("msg", "Error: Database issues");
 				doGet(request, response);
 			}
 		}
+		
 	}
 
 }
