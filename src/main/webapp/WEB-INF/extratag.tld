@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/j2ee" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+        
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.3</jsp-version>
+    <short-name>myApp</short-name>
+    <display-name>myapp extra tags library</display-name>
+    <uri>http://myapp.fr/tld/extratags</uri>
+
+    <tag>
+        <name>Header</name>
+        <tagclass>com.jee.ihm.tag.Header</tagclass>
+        <bodycontent>JSP</bodycontent>
+        
+        <attribute>
+            <name>userName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>        
+        </attribute>
+        
+    </tag>
+
+</taglib>

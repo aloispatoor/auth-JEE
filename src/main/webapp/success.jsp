@@ -28,13 +28,13 @@
 			</thead>
 			<% for (Users u: UserDAO.getAllUsers()) { %>
 				<tbody>
-				<tr>
-					<td> <%= u.getId() %> </td>
-					<td> <%= u.getUsername() %> </td>
-					<td> <%= u.getPassword() %> </td>
-					<td> <a href="/Auth-JEE/delete?id=<%= u.getId() %> ">Delete</a> </td>
-					<td> <a href="/Auth-JEE/update?id=<%= u.getId() %> ">Update</a> </td>
-				</tr>
+					<tr>
+						<td> <%= u.getId() %> </td>
+						<td> <%= u.getUsername() %> </td>
+						<td> <%= u.getPassword() %> </td>
+						<td> <a href="/Auth-JEE/delete?id=<%= u.getId() %> ">Delete</a> </td>
+						<td> <a href="/Auth-JEE/update?id=<%= u.getId() %> ">Update</a> </td>
+					</tr>
 				</tbody>
 			<% 
 			} 

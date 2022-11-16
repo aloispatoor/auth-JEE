@@ -6,6 +6,11 @@ body{
 	font-family: sans-serif;
 }
 
+header{
+	background: black;
+	padding-top: 1em;
+}
+
 h1, h2, p, form{
 	text-align:center;
 	padding-bottom: 1em;
