@@ -22,6 +22,7 @@
 					<td>Id</td>
 					<td>Username</td>
 					<td>Email</td>
+					<td>Password</td>
 					<td>Delete</td>
 					<td>Update</td>
 				</tr>
@@ -31,6 +32,7 @@
 					<tr>
 						<td> <%= u.getId() %> </td>
 						<td> <%= u.getUsername() %> </td>
+						<td> <%= u.getEmail() %> </td>
 						<td> <%= u.getPassword() %> </td>
 						<td> <a href="/Auth-JEE/delete?id=<%= u.getId() %> ">Delete</a> </td>
 						<td> <a href="/Auth-JEE/update?id=<%= u.getId() %> ">Update</a> </td>
